@@ -1,5 +1,6 @@
 const hashMapFactory = () => {
   let capacity = 16;
+  let loadFactor = 0.75;
   let size = 0;
   let buckets = new Array(capacity).fill(null).map(() => []);
 
