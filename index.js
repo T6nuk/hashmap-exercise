@@ -14,15 +14,33 @@ const hashMapFactory = () => {
     }
     return Math.abs(hashCode % capacity);
   };
-  console.log(hash("a"));
+  console.log(hash(""));
+
+  const set = (key, value) => {
+    const index = hash(key);
+    const bucket = buckets[index];
+
+    //if key exists
+    const existing = bucket.find((item) => item[0] === key);
+    if (existing) {
+      existing[1] = value;
+    } else {
+      bucket.push([key, value]);
+      size++;
+    }
+
+    //add check if resizing needed
+  };
+  const get = (key) => {
+    const index = hash(key);
+    const bucket = buckets[index];
+    const found = bucket.find((item) => item[0] === key);
+    return found ? found[1] : undefined;
+  };
 
   return {
-    set(key, value) {
-      data[key] = value;
-    },
-    get(key) {
-      return data[key];
-    },
+    set,
+    get,
   };
 };
 
