@@ -14,7 +14,6 @@ const hashMapFactory = () => {
     }
     return Math.abs(hashCode % capacity);
   };
-  console.log(hash(""));
 
   const set = (key, value) => {
     const index = hash(key);
@@ -35,13 +34,36 @@ const hashMapFactory = () => {
     const index = hash(key);
     const bucket = buckets[index];
     const found = bucket.find((item) => item[0] === key);
+
     return found ? found[1] : undefined;
+  };
+
+  const remove = (key) => {
+    const index = hash(key);
+    const bucket = buckets[index];
+
+    const pos = bucket.findIndex(([k]) => k === key);
+    console.log(pos);
+    if (pos === -1) return false;
+
+    bucket.splice(pos, 1);
+    size--;
+    return true;
   };
 
   return {
     set,
     get,
+    remove,
   };
 };
 
-console.log(hashMapFactory());
+const map = hashMapFactory();
+
+map.set("a", 6);
+console.log(map.get("a"));
+console.log(map.remove("a"));
+map.set("b", 5);
+console.log(map.remove("b"));
+
+console.log(map.get("b"));
