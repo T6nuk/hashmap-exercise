@@ -27,6 +27,7 @@ const hashMapFactory = () => {
       bucket.push([key, value]);
       size++;
     }
+    console.log("size is: " + size);
 
     //add check if resizing needed
   };
@@ -48,22 +49,35 @@ const hashMapFactory = () => {
 
     bucket.splice(pos, 1);
     size--;
+    console.log("size is: " + size);
     return true;
+  };
+
+  const length = () => {
+    console.log(buckets.length);
+    let numOfKeys = 0;
+    for (let i = 0; i < buckets.length; i++) {
+      for (let j = 0; j < buckets[i].length; j++) {
+        console.log(buckets[i][j]);
+        numOfKeys++;
+      }
+    }
+    return numOfKeys;
   };
 
   return {
     set,
     get,
     remove,
+    length,
   };
 };
 
 const map = hashMapFactory();
 
 map.set("a", 6);
-console.log(map.get("a"));
-console.log(map.remove("a"));
 map.set("b", 5);
-console.log(map.remove("b"));
-
-console.log(map.get("b"));
+map.set("c", 3);
+map.set("q", 1);
+map.set("s", 12);
+console.log(map.length());
