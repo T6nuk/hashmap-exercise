@@ -15,6 +15,22 @@ const hashMapFactory = () => {
     return Math.abs(hashCode % capacity);
   };
 
+  const resize = () => {
+    console.log("resizing...");
+
+    capacity *= 2;
+    const newBuckets = new Array(capacity).fill(null).map(() => []);
+
+    for (let bucket of buckets) {
+      for (let [key, value] of bucket) {
+        const index = hash(key) % capacity;
+        newBuckets[index].push([key, value]);
+      }
+    }
+
+    buckets = newBuckets;
+  };
+
   const set = (key, value) => {
     const index = hash(key);
     const bucket = buckets[index];
@@ -29,8 +45,11 @@ const hashMapFactory = () => {
     }
     console.log("size is: " + size);
 
-    //add check if resizing needed
+    if (size / capacity >= loadFactor) {
+      resize();
+    }
   };
+
   const get = (key) => {
     const index = hash(key);
     const bucket = buckets[index];
@@ -106,16 +125,16 @@ const map = hashMapFactory();
 map.set("a", 6);
 map.set("b", 5);
 map.set("c", 3);
-map.set("q", 1);
-map.set("s", 12);
+map.set("d", 1);
+map.set("e", 4);
+map.set("f", 5);
+map.set("g", 4);
+map.set("h", 3);
+map.set("i", 6);
+map.set("j", 32);
+map.set("k", 66);
+map.set("l", 3);
+console.log(map.length());
 console.log(map.keys());
-console.log(map.values());
-
-console.log(map.length());
-console.log(map.remove("a"));
-console.log(map.length());
 map.clear();
 console.log(map.length());
-map.set("a", 4);
-console.log(map.length());
-console.log(map.keys());
