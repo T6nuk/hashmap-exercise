@@ -44,7 +44,6 @@ const hashMapFactory = () => {
     const bucket = buckets[index];
 
     const pos = bucket.findIndex(([k]) => k === key);
-    console.log(pos);
     if (pos === -1) return false;
 
     bucket.splice(pos, 1);
@@ -65,11 +64,40 @@ const hashMapFactory = () => {
     return numOfKeys;
   };
 
+  const clear = () => {
+    buckets = new Array(capacity).fill(null).map(() => []);
+    size = 0;
+    return buckets;
+  };
+
+  const keys = () => {
+    let arr = [];
+    for (let i = 0; i < buckets.length; i++) {
+      for (let j = 0; j < buckets[i].length; j++) {
+        arr.push(buckets[i][j][0]);
+      }
+    }
+    return arr;
+  };
+
+  const values = () => {
+    let arr = [];
+    for (let i = 0; i < buckets.length; i++) {
+      for (let j = 0; j < buckets[i].length; j++) {
+        arr.push(buckets[i][j][1]);
+      }
+    }
+    return arr;
+  };
+
   return {
     set,
     get,
     remove,
     length,
+    clear,
+    keys,
+    values,
   };
 };
 
@@ -80,4 +108,14 @@ map.set("b", 5);
 map.set("c", 3);
 map.set("q", 1);
 map.set("s", 12);
+console.log(map.keys());
+console.log(map.values());
+
 console.log(map.length());
+console.log(map.remove("a"));
+console.log(map.length());
+map.clear();
+console.log(map.length());
+map.set("a", 4);
+console.log(map.length());
+console.log(map.keys());
